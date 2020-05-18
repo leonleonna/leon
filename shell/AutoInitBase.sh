@@ -37,7 +37,7 @@ function serverStatus(){
 # Set Network
 function netSet(){
     echo -e "\e[36m  -->  Set network now \e[0m"
-    netPath=/etc/sysconfig/network-script/ifcfg-
+    netPath=/etc/sysconfig/network-scripts/ifcfg-
     getWay=`ip r s | egrep default |awk '{print $3}'`
     ipAdd=`ip a | grep 'inet 192' | awk '{print $2}'`
     echo " GW:${getWay}  IP:${ipAdd}"
@@ -58,7 +58,7 @@ function netSet(){
 			    PRI=`ip a | grep 'inet 192' | awk '{print $2}' |awk -F '/' '{print $2}'`
 			    read -n 17 -ep "Please input your DNS[8.8.8.8]: " confirmDns
 				confirmDns=${confirmDns:-'8.8.8.8'}
-	    	            echo 'DEVICE="${netName}"' > ${netPath}
+	    	            echo "DEVICE="${netName}"" > ${netPath}
 	    		    echo 'ONBOOT="yes"' >> ${netPath}
 	    	 	    echo 'BOOTPROTO=none' >> ${netPath}
 			    echo "IPADDR=${IPA}" >> ${netPath}
