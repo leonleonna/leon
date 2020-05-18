@@ -48,15 +48,15 @@ function netSet(){
             netPath=${netPath}${netName}
     	    while true
 	    do
-                read -n 3 -ep "Please Input Your Address[${ipAdd}]: " ipNet
+                read -n 17 -ep "Please Input Your Address[${ipAdd}]: " ipNet
                 ipNet=${ipNet:-${ipAdd}}
-                read -n 3 -ep "Please Input Your GateWay[${getWay}]: " gwNet
+                read -n 17 -ep "Please Input Your GateWay[${getWay}]: " gwNet
                 gwNet=${gwNet:-${getWay}}
                 read -n 1 -ep "Ipaddress:${ipNet} GateWay:${gwNet} (y/n): " confirmNet
 	    	if [[ ${confirmNet} = 'y' ]];then
 			    IPA=`ip a | grep 'inet 192' | awk '{print $2}' |awk -F '/' '{print $1}'`
 			    PRI=`ip a | grep 'inet 192' | awk '{print $2}' |awk -F '/' '{print $2}'`
-			    read -n 3 -ep "Please input your DNS[8.8.8.8]: " confirmDns
+			    read -n 17 -ep "Please input your DNS[8.8.8.8]: " confirmDns
 				confirmDns=${confirmDns:-'8.8.8.8'}
 	    	            echo 'DEVICE="${netName}"' > ${netPath}
 	    		    echo 'ONBOOT="yes"' >> ${netPath}
@@ -111,4 +111,4 @@ installServer redis
 
 
 
-#netSet
+netSet
