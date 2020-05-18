@@ -15,6 +15,33 @@ echo -e "\e[36m  |   Please Interaction start        | \e[0m"
 echo -e "\e[36m  |   Version 1.0 Author leon         | \e[0m"
 echo -e "\e[36m  +-----------------------------------+ \e[0m"
 
+# Keyless
+function keyLess(){
+    yum -y install expect
+    if [[ ! -f /root/.ssh/id_rsa ]];then
+        ssh-keygen -f '/root/.ssh/id_rsa' -N ''
+    fi
+    echo -e "\e[31m Start Set Keyless!  \e[0m" 
+    for nodeSub in $@
+    do
+        expect -c "set timeout -1;
+        spawn ssh-copy-id ${nodeSub};
+        expect {
+            *(yes/no)* {send -- yes\r;exp_continue;}
+            *assword:* {send -- 1\r;exp_continue;}
+            eof        {exit 0;}
+        }";
+    done
+}
+
+# Set Hosts
+function hostSet(){
+    for host in $@
+    do 
+    写入Hosts文件
+    done       
+}
+
 # Server status
 function serverStatus(){
     if [[ $# -ne 2 ]];then 
@@ -85,29 +112,26 @@ function installServer(){
             yum -y install $1 &> /dev/null
             serverStatus $1 restart
         fi
-    elif [[ $# -ne 1 ]];then
-        echo 'Input Args too many!'
-    else
+    elif [[ $1 = 'ceph' ]];then 
         echo -e "\e[36m  Install $1 now! \e[0m"
+        #yum -y install git;git clone https://github.com/leonleonna/leon
+        for node in {1..3} 
+        do 
+            read -n 17 -ep "Please Input Cluster node${node}: " ipNode
+	        NODE[${node}]=${ipNode}
+        done
+	read -ep "Please Input Cluster node password: " nodePass
+	keyLess ${NODE[@]} ${nodePass}
+    elif [[ $1 = 'redis' ]];then
+        echo 'Install redis now!'
+    else
+        echo 'Input Args too many!'
     fi
 }
 
-installServer redis
+installServer ceph
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-netSet
+#netSet
