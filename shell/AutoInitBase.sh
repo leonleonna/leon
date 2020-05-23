@@ -87,7 +87,7 @@ function netSet(){
 	    	            echo "DEVICE="${netName}"" > ${netPath}
 	    		    echo 'ONBOOT="yes"' >> ${netPath}
 	    	 	    echo 'BOOTPROTO=none' >> ${netPath}
-			    echo "IPADDR=${ipNet}" >> ${netPath}
+			    echo "IPADDR=${ipAdd}" >> ${netPath}
 			    echo "GATEWAY=${getWay}" >> ${netPath}
 			    echo "PRIFIX=${PRI}" >> ${netPath}
 			    echo "DNS1=${confirmDns}" >> ${netPath}
@@ -129,9 +129,9 @@ function installServer(){
     fi
 }
 
-installServer ceph
+#installServer ceph
 
 
 
 
-#netSet
+netSet
